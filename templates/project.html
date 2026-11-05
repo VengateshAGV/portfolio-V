@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ p.title }} — Venkatesan G{% endblock %}
+{% block content %}
+
+<section style="padding:80px 0">
+  <div class="container">
+
+    <div class="breadcrumb">
+      <a href="{{ url_for('index') }}">Home</a>
+      <span>/</span>
+      <a href="{{ url_for('projects') }}">Projects</a>
+      <span>/</span>
+      {{ p.title }}
+    </div>
+
+    <h1 style="margin-top:16px">{{ p.icon }} {{ p.title }}</h1>
+    <p class="lead">{{ p.short_desc }}</p>
+
+    <div class="meta">
+      {% for t in p.tags.split(',') if t.strip() %}
+        <span class="tag">{{ t.strip() }}</span>
+      {% endfor %}
+    </div>
+
+    <!-- NEW: Multi-Image Grid -->
+    {% if p.images %}
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:16px;margin:32px 0;">
+      {% for img in p.images.split(',') if img %}
+        <div style="border-radius:12px;overflow:hidden;border:1px solid #333;aspect-ratio:16/9;background:#111;">
+          <img src="{{ url_for('static', filename='uploads/' + img) }}"
+               alt="{{ p.title }}"
+               style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="detail-block">
+      <h2>Problem</h2>
+      <p>{{ p.problem }}</p>
+    </div>
+
+    <div class="detail-block">
+      <h2>What I Built</h2>
+      <ul>
+        {% for b in p.built.split('\n') if b.strip() %}
+          <li>{{ b.strip() }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="detail-block">
+      <h2>Stack</h2>
+      <div class="stack-grid">
+        {% for s in p.stack.split(',') if s.strip() %}
+          <span class="stack-item">{{ s.strip() }}</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="detail-block">
+      <h2>Results / Metrics</h2>
+      <table>
+        <thead><tr><th>Metric</th><th>Value</th></tr></thead>
+        <tbody>
+          {% for line in p.metrics.split('\n') if '|' in line %}
+            {% set parts = line.split('|') %}
+            <tr><td>{{ parts[0].strip() }}</td><td>{{ parts[1].strip() }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:32px">
+      <a href="{{ url_for('projects') }}" class="btn btn-ghost">← Back to Projects</a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

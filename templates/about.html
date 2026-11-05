@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}About — Venkatesan G{% endblock %}
+{% block content %}
+
+<section style="padding-top:60px">
+  <div class="container">
+    <div class="section-label">// About</div>
+    <h1 class="section-title" style="font-size:clamp(2rem,4vw,3rem)">Who I Am</h1>
+
+    <div class="about-hero" style="margin-top:36px">
+      <!-- Left Side: Image -->
+      <div class="profile-img-container">
+        <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Venkatesan G" class="profile-img">
+      </div>
+
+      <!-- Right Side: Bio -->
+      <div>
+        <p>I'm a <strong>software engineer specializing in trading automation</strong> — building the infrastructure that turns strategy ideas into live, executable systems. My work spans custom indicators, algorithmic strategies, API-based auto-bot architectures, and signal-routing pipelines.</p>
+        <p>I've integrated <strong>IBKR, BitMart, BitUnix, Coinbase, and Sunperp</strong> via low-latency REST and WebSocket APIs, built NinjaTrader AddOns in C#, and shipped Pine Script indicators on TradingView. I also build Telegram/Discord signal engines that receive alerts and post execution status automatically.</p>
+        <p>Currently at <strong>Kavin Global Technologies</strong>, I architect and ship trading automation infrastructure. I'm passionate about backtest-to-live parity, clean execution logic, and systems that hold up under real market conditions.</p>
+      </div>
+    </div>
+
+    <!-- Quick facts box below -->
+    <div class="about-side" style="margin-top: 20px;">
+      <h4>Quick Facts</h4>
+      <ul>
+        <li>Experience <span>2022 – Present</span></li>
+        <li>Exchanges <span>5+</span></li>
+        <li>Platforms <span>3</span></li>
+        <li>Strategies <span>8+</span></li>
+        <li>Location <span>Tamil Nadu, India</span></li>
+        <li>Languages <span>English, Tamil</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt">
+  <div class="container">
+    <div class="section-label">// Experience</div>
+    <h2 class="section-title">Timeline</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <h3>Software Engineer — Kavin Global Technologies</h3>
+        <div class="tl-meta">Feb 2025 – Present · Coimbatore, India (Hybrid)</div>
+        <ul>
+          <li>Architected live API-driven trading bot infrastructure and automated workflows</li>
+          <li>Engineered custom indicators and multi-timeframe strategies (TradingView Pine Script, MetaTrader)</li>
+          <li>Integrated low-latency REST + WebSocket APIs across IBKR, BitMart, BitUnix, Coinbase</li>
+          <li>Built Telegram/Discord signal webhooks for automated live trade execution</li>
+          <li>Programmed Iron Butterfly and multi-leg options workflows</li>
+          <li>Ran algorithmic backtesting and continuous dry-run validation</li>
+          <li>Optimized delivery with AI-assisted generation and automated debugging</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <h3>Prior Multidisciplinary Roles</h3>
+        <div class="tl-meta">2017 – 2022</div>
+        <p>Production Supervisor / Fabrication Technician / Data Entry — built baseline expertise in systematic workflow management, independent troubleshooting, cross-team communication, and high-accuracy data coordination under strict milestones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">// Education & Certifications</div>
+    <h2 class="section-title">Education</h2>
+    <div class="detail-block" style="margin-top:24px">
+      <h2>BSc Information Technology</h2>
+      <p>Kovai Kalaimagal College (Bharathiar University)</p>
+      <p style="margin-top:8px;font-size:.85rem">Coursework: Data Structures, DBMS, Web Development, Software Testing Automation Basics</p>
+    </div>
+    <div class="detail-block">
+      <h2>Certifications</h2>
+      <ul>
+        <li>Foundational C# with Microsoft</li>
+        <li>Scientific Computing with Python — freeCodeCamp (June 2024)</li>
+        <li>Responsive Web Design — freeCodeCamp (June 2024)</li>
+        <li>Python Fundamentals for Beginners — Great Learning Academy (June 2024)</li>
+      </ul>
+    </div>
+    <div style="margin-top:32px">
+      <a href="{{ url_for('static', filename='Venkatesan_G_Resume.pdf') }}" class="btn btn-primary">Download Full Resume →</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

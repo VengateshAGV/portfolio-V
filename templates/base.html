@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Venkatesan G{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    
+    <!-- LOGO IS NOW A SECRET ADMIN LINK -->
+    <a href="{{ url_for('admin_dashboard') }}" style="text-decoration:none; color:inherit;">
+      <div class="logo">Venkatesan<span>.</span>G</div>
+    </a>
+
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('projects') }}">Projects</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('blog') }}">Blog</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Toast Notification Container -->
+<div id="toast-container" style="position: fixed; top: 80px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
+
+<!-- Hidden Flash Messages -->
+<div id="flash-data" style="display: none;">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <span data-category="{{ category }}">{{ message }}</span>
+    {% endfor %}
+  {% endwith %}
+</div>
+
+{% block content %}{% endblock %}
+
+<footer>
+  <div class="container">
+    © 2025 Venkatesan G · Built with Flask
+    <div class="foot-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('projects') }}">Projects</a>
+      <a href="{{ url_for('about') }}">About</a>
+      <a href="{{ url_for('blog') }}">Blog</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="{{ url_for('static', filename='main.js') }}"></script>
+{% block scripts %}{% endblock %}
+
+<!-- Toast Notification Logic -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const container = document.getElementById('toast-container');
+    const flashes = document.querySelectorAll('#flash-data span');
+
+    flashes.forEach(function(flash) {
+      const category = flash.getAttribute('data-category');
+      const message = flash.textContent.trim();
+
+      if(!message) return;
+
+      const toast = document.createElement('div');
+      
+      let bgColor = '#0d6efd'; // Default blue
+      if (category === 'error') bgColor = '#dc3545'; // Red
+      if (category === 'success') bgColor = '#198754'; // Green
+
+      toast.style.cssText = `
+        background: ${bgColor};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        font-family: sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease-in-out;
+        pointer-events: none;
+      `;
+      toast.textContent = message;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(0)';
+      }, 100);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    });
+  });
+</script>
+</body>
+</html>

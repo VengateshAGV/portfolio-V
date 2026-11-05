@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Venkatesan G — Algorithmic Trading Automation Engineer{% endblock %}
+{% block content %}
+
+<header class="hero">
+  <div class="container hero-layout">
+
+    <!-- Left Side: Text -->
+    <div>
+      <div class="hero-tag">● Available for automation projects</div>
+      <h1>Algorithmic Trading<br><span class="grad"></span></h1>
+      <p class="lead">I build live trading bots, custom indicators, and signal-routing systems across <strong>5+ exchanges</strong> and <strong>3 platforms</strong> — from NinjaTrader AddOns to multi-exchange Python execution engines.</p>
+      <p class="stack">
+        <span>Python</span>
+        <span>C#</span>
+        <span>Pine Script</span>
+        <span>NinjaScript</span>
+        <span>REST/WebSocket</span>
+        <span>IBKR</span>
+        <span>MT4/MT5</span>
+      </p>
+      <div class="btn-row">
+        <a href="{{ url_for('projects') }}" class="btn btn-primary">View Projects →</a>
+        <!-- DYNAMIC RESUME LINK -->
+        <a href="{{ url_for('static', filename='uploads/' + files.get('resume')) if files.get('resume') else url_for('static', filename='Venkatesan_G_Resume.pdf') }}" class="btn btn-ghost">Download Resume</a>
+        <a href="{{ settings.get('github_url', 'https://github.com/VengateshAGV') }}" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+      </div>
+    </div>
+
+    <!-- Right Side: Image -->
+    <div class="profile-img-container">
+      <!-- DYNAMIC PROFILE IMAGE -->
+      <img src="{{ url_for('static', filename='uploads/' + files.get('profile_img')) if files.get('profile_img') else url_for('static', filename='profile.jpg') }}" alt="Venkatesan G" class="profile-img">
+    </div>
+
+  </div>
+
+  <!-- Stats below the grid -->
+  <div class="container">
+    <div class="stats">
+      <div class="stat"><div class="num">5+</div><div class="label">Exchanges</div></div>
+      <div class="stat"><div class="num">3</div><div class="label">Platforms</div></div>
+      <div class="stat"><div class="num">8+</div><div class="label">Strategies Built</div></div>
+      <div class="stat"><div class="num">&lt;100ms</div><div class="label">Order Latency</div></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <div class="section-label">// Featured Work</div>
+    <h2 class="section-title">Projects</h2>
+    <p class="section-sub">Live systems built across trading platforms, exchanges, and signal channels. Client work — architecture and metrics shared, source proprietary.</p>
+
+    <!-- MODERN GRID LAYOUT FOR CARDS -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
+      {% for p in projects %}
+      <div class="card" style="display:flex; flex-direction:column; padding: 0; overflow: hidden; background: #151515; border: 1px solid #333;">
+        
+        <!-- Image Header -->
+        {% if p.images %}
+          {% set first_img = p.images.split(',')[0] %}
+          {% if first_img %}
+            <div style="width:100%; aspect-ratio:16/9; background:#000;">
+              <img src="{{ url_for('static', filename='uploads/' + first_img.strip()) }}" 
+                   alt="{{ p.title }}" 
+                   style="width:100%; height:100%; object-fit:cover; display:block;">
+            </div>
+          {% endif %}
+        {% endif %}
+
+        <!-- Card Content -->
+        <div style="padding: 24px; display: flex; flex-direction: column; flex-grow: 1;">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom: 12px;">
+            {% if not p.images %}
+              <div class="card-icon" style="margin:0;">{{ p.icon }}</div>
+            {% endif %}
+            <h3 style="margin:0; font-size: 1.25rem;">{{ p.title }}</h3>
+          </div>
+
+          <p style="color: #aaa; font-size: 0.95rem; line-height: 1.5; margin-bottom: 16px;">{{ p.short_desc }}</p>
+          
+          <div class="meta" style="margin-bottom: 16px;">
+            {% for t in p.tags.split(',') if t.strip() %}
+              <span class="tag" style="font-size: 0.75rem; padding: 4px 8px;">{{ t.strip() }}</span>
+            {% endfor %}
+          </div>
+
+          <div class="result" style="margin-top: auto; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; font-size: 0.85rem; margin-bottom: 16px;">
+            <strong style="color: var(--accent);">Result:</strong> {{ p.result }}
+          </div>
+          
+          <div class="card-links">
+            <a href="{{ url_for('project_detail', id=p.id) }}" style="display: inline-block; font-weight: 600; color: var(--accent); text-decoration: none;">Read More →</a>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <p style="color:#888">No featured projects yet. Add one from the admin panel and check "Featured".</p>
+      {% endfor %}
+    </div>
+
+    <div class="text-center" style="margin-top:40px">
+      <a href="{{ url_for('projects') }}" class="btn btn-ghost">View All Projects →</a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-alt">
+  <div class="container">
+    <div class="section-label">// System Design</div>
+    <h2 class="section-title">Architecture</h2>
+    <p class="section-sub">How the pieces connect — from exchange APIs to signal channels.</p>
+    <div class="arch">
+<pre>
+  <span class="hl">Exchange APIs</span>  (IBKR · BitMart · BitUnix · Coinbase · Sunperp)
+        ↕  REST + WebSocket
+  <span class="hl">[ Execution Engine ]</span>  Python / C#  — order routing, risk, position mgmt
+        ↕
+  <span class="hl">NinjaTrader</span> · <span class="hl">TradingView</span> · <span class="hl">MT4/MT5</span>  — indicators, strategies, alerts
+        ↕
+  <span class="hl">Telegram / Discord</span>  ⇄  Status Tracker  — signal in, execution status out
+</pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-label">// Technologies</div>
+    <h2 class="section-title">Tech Stack</h2>
+    <p class="section-sub">Languages, platforms, and tools I work with daily.</p>
+    <div class="stack-grid">
+      <span class="stack-item">Python</span><span class="stack-item">C#</span>
+      <span class="stack-item">Pine Script</span><span class="stack-item">NinjaScript</span>
+      <span class="stack-item">REST APIs</span><span class="stack-item">WebSocket</span>
+      <span class="stack-item">NinjaTrader 8</span><span class="stack-item">TradingView</span>
+      <span class="stack-item">MetaTrader 4/5</span><span class="stack-item">IBKR API</span>
+      <span class="stack-item">BitMart</span><span class="stack-item">BitUnix</span>
+      <span class="stack-item">Coinbase</span><span class="stack-item">Sunperp</span>
+      <span class="stack-item">Telegram Bot API</span><span class="stack-item">Discord Webhooks</span>
+      <span class="stack-item">Git / GitHub</span><span class="stack-item">Postman</span>
+      <span class="stack-item">LightGBM</span>
+    </div>
+  </div>
+</section>
+
+<section class="contact">
+  <div class="container">
+    <h2>Let's build something.</h2>
+    <p>Available for trading automation projects, bot development, and indicator/strategy work.</p>
+    <div class="contact-links">
+      <!-- DYNAMIC CONTACT LINKS -->
+      <a href="mailto:{{ settings.get('email', 'Vengatesh.agv@gmail.com') }}" class="btn btn-primary">✉ {{ settings.get('email', 'Vengatesh.agv@gmail.com') }}</a>
+      <a href="{{ settings.get('github_url', 'https://github.com/VengateshAGV') }}" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+      <a href="{{ settings.get('linkedin_url', 'https://linkedin.com/in/venkatesan-agv') }}" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

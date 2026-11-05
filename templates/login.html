@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Login — Venkatesan G{% endblock %}
+{% block content %}
+<section style="padding:120px 0">
+  <div class="container" style="max-width:420px">
+    <div class="section-label">// Admin Access</div>
+    <h1 class="section-title" style="font-size:2rem; margin-bottom: 24px;">Login</h1>
+
+    <!-- WARNING BANNER -->
+    <div style="background: rgba(220, 53, 69, 0.1); border: 1px solid #dc3545; border-radius: 8px; padding: 16px; margin-bottom: 24px; text-align: center;">
+      <h3 style="color: #dc3545; font-size: 1rem; margin-top: 0; margin-bottom: 8px;">⚠️ Private Access Only</h3>
+      <p style="color: #ccc; font-size: 0.85rem; margin: 0; line-height: 1.4;">
+        This login is strictly for portfolio administration. If you are a visitor, please click below to return to the homepage.
+      </p>
+    </div>
+
+    <form method="POST" class="form">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" required autocomplete="username">
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required autocomplete="current-password">
+
+      <label style="display:flex;align-items:center;gap:8px;margin-top:12px">
+        <input type="checkbox" name="remember" style="width:auto">
+        Remember me
+      </label>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:16px">Log In</button>
+      
+      <!-- GO BACK BUTTON -->
+      <a href="{{ url_for('index') }}" class="btn btn-ghost" style="width:100%;margin-top:12px; justify-content:center;">
+        ← Go Back to Portfolio
+      </a>
+    </form>
+  </div>
+</section>
+{% endblock %}

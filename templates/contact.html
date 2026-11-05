@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Contact — Venkatesan G{% endblock %}
+{% block content %}
+
+<section class="contact" style="padding-top:80px">
+  <div class="container">
+    <div class="section-label" style="text-align:center">// Get In Touch</div>
+    <h1 style="font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.02em;margin-bottom:16px">Let's build something.</h1>
+    <p>Available for trading automation projects, bot development, indicator/strategy work, and API integrations.</p>
+
+    <div class="contact-links">
+      <a href="mailto:Vengatesh.agv@gmail.com" class="btn btn-primary">✉ Vengatesh.agv@gmail.com</a>
+      <a href="tel:+919025986833" class="btn btn-ghost">📞 +91 90259 86833</a>
+      <a href="https://github.com/VengateshAGV" target="_blank" rel="noopener" class="btn btn-ghost">GitHub</a>
+      <a href="https://linkedin.com/in/venkatesan-agv" target="_blank" rel="noopener" class="btn btn-ghost">LinkedIn</a>
+    </div>
+
+    <form class="form" method="POST" action="{{ url_for('contact') }}">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" placeholder="Your name" required>
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="you@example.com" required>
+
+      <label for="msg">Message</label>
+      <textarea id="msg" name="message" placeholder="Tell me about your project..." required></textarea>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send Message</button>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:12px;text-align:center">
+        Messages are saved to the database and appear in the admin panel.
+      </p>
+    </form>
+
+  </div>
+</section>
+
+{% endblock %}

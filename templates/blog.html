@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Blog — Venkatesan G{% endblock %}
+{% block content %}
+
+<section style="padding-top: 120px;">
+  <div class="container">
+    <div class="section-label">// Notes & Insights</div>
+    <h1 class="section-title">Blog</h1>
+    <p class="section-sub">Short notes on trading automation, platform quirks, and API integration lessons from the field.</p>
+
+    <div class="blog-list">
+      {% for post in posts %}
+      <a href="{{ url_for('blog_detail', id=post.id) }}" class="blog-item">
+        <div class="blog-date">{{ post.date_posted.strftime('%b %d, %Y') }}</div>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.summary }}</p>
+      </a>
+      {% else %}
+      <p style="color:#888">No posts published yet. Check back soon.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

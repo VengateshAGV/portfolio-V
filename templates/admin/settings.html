@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Site Settings — Admin{% endblock %}
+{% block content %}
+<section style="padding:60px 0">
+  <div class="container" style="max-width:760px">
+    <a href="{{ url_for('admin_dashboard') }}" style="color:var(--accent);text-decoration:none">← Back to Dashboard</a>
+    <h1 style="margin-top:16px">Settings & Profile</h1>
+
+    <!-- ACCOUNT ACTIONS -->
+    <div style="display:flex; gap:16px; margin-top:24px; padding:16px; background:#222; border-radius:8px; border:1px solid #333;">
+      <div style="flex:1;">
+        <h3 style="margin:0 0 8px 0; font-size:1.1rem">Account Security</h3>
+        <p style="font-size:0.85rem; color:#aaa; margin:0;">Change your admin password or log out of this session.</p>
+      </div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a href="{{ url_for('change_password') }}" class="btn btn-ghost" style="font-size:0.9rem;">Reset Password</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-primary" style="font-size:0.9rem; background:#dc3545; border-color:#dc3545;">Logout</a>
+      </div>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="form" style="margin-top:32px">
+      
+      <h3 style="margin-bottom:16px; border-bottom:1px solid #333; padding-bottom:8px;">Contact Information</h3>
+      
+      <label>Email Address</label>
+      <input name="email" value="{{ settings.get('email', 'Vengatesh.agv@gmail.com') }}">
+
+      <label>Phone Number</label>
+      <input name="phone" value="{{ settings.get('phone', '+91 90259 86833') }}">
+
+      <label>GitHub URL</label>
+      <input name="github_url" value="{{ settings.get('github_url', 'https://github.com/VengateshAGV') }}">
+
+      <label>LinkedIn URL</label>
+      <input name="linkedin_url" value="{{ settings.get('linkedin_url', 'https://linkedin.com/in/venkatesan-agv') }}">
+
+      <h3 style="margin-top:32px; margin-bottom:16px; border-bottom:1px solid #333; padding-bottom:8px;">Files</h3>
+
+      <label>Profile Image (JPG/PNG)</label>
+      <input type="file" name="profile_img" accept="image/*">
+      {% if files.get('profile_img') %}
+        <img src="{{ url_for('static', filename='uploads/' + files.get('profile_img')) }}" style="max-height:100px; margin-top:12px; border-radius:8px;">
+      {% endif %}
+
+      <label>Resume (PDF)</label>
+      <input type="file" name="resume" accept=".pdf">
+      {% if files.get('resume') %}
+        <p style="font-size:0.8rem; color:#888; margin-top:8px;">Current: {{ files.get('resume') }}</p>
+      {% endif %}
+
+      <div style="margin-top:24px">
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

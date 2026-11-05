@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}404 — Page Not Found{% endblock %}
+{% block content %}
+<section style="padding:120px 0;text-align:center">
+  <div class="container">
+    <div style="font-family:var(--mono);font-size:6rem;font-weight:800;color:var(--accent);line-height:1">404</div>
+    <h1 class="section-title" style="margin-top:16px">Page not found</h1>
+    <p class="section-sub" style="margin:16px auto 32px">That page doesn't exist. Let's get you back on track.</p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">← Back Home</a>
+  </div>
+</section>
+{% endblock %}

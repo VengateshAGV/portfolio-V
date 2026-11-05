@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Contact Messages — Admin{% endblock %}
+{% block content %}
+<section style="padding:60px 0">
+  <div class="container">
+    <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+    <h1 style="margin-top:16px">Contact Messages</h1>
+    <p style="color:#888;font-size:.9rem;margin-top:8px">
+      {{ messages|length }} message{{ 's' if messages|length != 1 else '' }} total.
+      New messages are marked as read when you open this page.
+    </p>
+
+    <div style="margin-top:24px">
+      {% for m in messages %}
+        <div style="padding:16px;border:1px solid #ddd;border-radius:8px;margin-bottom:12px;background:#fff">
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+            <div>
+              <strong>{{ m.name }}</strong>
+              &lt;<a href="mailto:{{ m.email }}">{{ m.email }}</a>&gt;
+            </div>
+            <div style="font-size:.8rem;color:#888">
+              {{ m.received_at.strftime('%Y-%m-%d %H:%M') }}
+            </div>
+          </div>
+          <p style="margin-top:12px;white-space:pre-wrap;line-height:1.6">{{ m.message }}</p>
+          <div style="margin-top:12px">
+            <a href="mailto:{{ m.email }}?subject=Re: Your message" class="btn btn-ghost" style="font-size:.8rem">Reply by Email</a>
+          </div>
+        </div>
+      {% else %}
+        <div style="padding:24px;border:1px dashed #ccc;border-radius:8px;text-align:center;color:#888">
+          No messages yet. When someone submits the contact form, it will appear here.
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
