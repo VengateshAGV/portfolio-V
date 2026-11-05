@@ -3,13 +3,15 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from config import Config
-# ADDED SiteSetting, UploadedFile to the imports below
 from models import db, User, Project, Blog, ContactMessage, SiteConfig, SiteSetting, UploadedFile
 import os, time
 
 app = Flask(__name__)
 app.config.from_object(Config)
 db.init_app(app)
+
+# Ensure the upload folder exists
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -106,7 +108,6 @@ def admin_dashboard():
     unread = ContactMessage.query.filter_by(is_read=False).count()
     return render_template('admin/dashboard.html', projects=projects, posts=posts, unread=unread)
 
-# --- NEW SETTINGS ROUTE ---
 @app.route('/admin/settings', methods=['GET', 'POST'])
 @login_required
 def admin_settings():
@@ -114,7 +115,6 @@ def admin_settings():
         abort(403)
 
     if request.method == 'POST':
-        # 1. Save Text Settings
         text_keys = ['email', 'phone', 'github_url', 'linkedin_url']
         for key in text_keys:
             val = request.form.get(key, '')
@@ -124,21 +124,23 @@ def admin_settings():
             else:
                 db.session.add(SiteSetting(key=key, value=val))
         
-        # 2. Save Profile Image
         profile_file = request.files.get('profile_img')
         if profile_file and profile_file.filename:
             filename = f"profile_{secure_filename(profile_file.filename)}"
-            profile_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # USE ABSOLUTE PATH
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            profile_file.save(filepath)
             
             existing = UploadedFile.query.filter_by(file_type='profile_img').first()
             if existing: existing.filename = filename
             else: db.session.add(UploadedFile(file_type='profile_img', filename=filename))
 
-        # 3. Save Resume PDF
         resume_file = request.files.get('resume')
         if resume_file and resume_file.filename:
             filename = f"resume_{secure_filename(resume_file.filename)}"
-            resume_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            # USE ABSOLUTE PATH
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            resume_file.save(filepath)
             
             existing = UploadedFile.query.filter_by(file_type='resume').first()
             if existing: existing.filename = filename
@@ -188,7 +190,9 @@ def project_form(id=None):
                         break
                     
                     filename = f"proj_{int(time.time())}_{len(current_imgs)}_{secure_filename(file.filename)}"
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    # USE ABSOLUTE PATH
+                    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    file.save(filepath)
                     current_imgs.append(filename)
             
             p.images = ','.join(current_imgs)
